@@ -21,6 +21,7 @@ export default {
         email: "",
         address: "",
         phone: "",
+        hobby: [],
         favorite: false,
       },
       message: "",

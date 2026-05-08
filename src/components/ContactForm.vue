@@ -40,8 +40,23 @@
       />
       <ErrorMessage name="phone" class="error-feedback" />
     </div>
+    <div class="form-group">
+      <label>Sở thích</label>
+      <div class="hobby-checkboxes">
+        <label v-for="option in hobbyOptions" :key="option" class="form-check-label hobby-option">
+          <input
+            type="checkbox"
+            :value="option"
+            v-model="contactLocal.hobby"
+            class="form-check-input"
+          />
+          {{ option }}
+        </label>
+      </div>
+    </div>
     <div class="form-group form-check">
       <input
+        id="favorite"
         name="favorite"
         type="checkbox"
         class="form-check-input"
@@ -100,10 +115,24 @@ export default {
           /((09|03|07|08|05)+([0-9]{8})\b)/g,
           "Số điện thoại không hợp lệ."
         ),
+      hobby: yup.array().of(yup.string()),
     });
 
     return {
-      contactLocal: { ...this.contact },
+      hobbyOptions: [
+        "Đọc sách",
+        "Thể thao",
+        "Du lịch",
+        "Nấu ăn",
+        "Âm nhạc",
+        "Chơi game",
+        "Vẽ tranh",
+        "Chụp ảnh",
+      ],
+      contactLocal: {
+        ...this.contact,
+        hobby: Array.isArray(this.contact.hobby) ? [...this.contact.hobby] : [],
+      },
       contactFormSchema,
     };
   },
@@ -130,4 +159,25 @@ export default {
 
 <style scoped>
 @import "@/assets/form.css";
+
+.hobby-checkboxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.hobby-option {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+.hobby-option .form-check-input {
+  position: static !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
 </style>
